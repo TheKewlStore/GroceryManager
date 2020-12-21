@@ -32,7 +32,8 @@ dependencies:
   flutter_bloc: ^5.0.0
   equatable: ^1.0.0
   flutter_typeahead: ^1.9.1
-
+  file_picker: ^2.1.4
+  csv: ^4.1.0
 
 dev_dependencies:
   flutter_test:

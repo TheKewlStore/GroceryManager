@@ -21,7 +21,7 @@ class _ShoppingTrackerState extends State<ShoppingTrackerView> {
   @override
   void initState() {
     super.initState();
-    _itemList = widget.list.items;
+    _itemList = widget.list.items.toList();
     _itemList.sort((a, b) => a.aisle.compareTo(b.aisle));
   }
 

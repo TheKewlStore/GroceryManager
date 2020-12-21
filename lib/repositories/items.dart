@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_manager/database/database.dart';
 import 'package:grocery_manager/entities/entities.dart';
@@ -42,5 +46,22 @@ class ItemRepository {
 
   Future<void> deleteItems(List<GroceryItem> items) async {
     return database.itemDao.deleteItems(items.map((item) => item.toEntity().id).toList());
+  }
+
+  Future<void> importItems(File file) async {
+    final input = file.openRead();
+    final data = await input.transform(utf8.decoder).transform(CsvToListConverter()).toList();
+    List<GroceryItemEntity> items = [];
+
+    for (List<dynamic> row in data.skip(1)) {
+      int id = row[0];
+      String name = row[1];
+      String aisle = row[2];
+      double price = row[3].toDouble();
+      bool neededWeekly = row[4].toString().toLowerCase() == "true";
+      items.add(GroceryItemEntity(id: id, name: name, aisle: aisle, price: price, neededWeekly: neededWeekly));
+    }
+
+    return database.itemDao.insertItems(items);
   }
 }

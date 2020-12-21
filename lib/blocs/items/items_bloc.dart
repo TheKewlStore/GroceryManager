@@ -30,6 +30,8 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
       yield* mapItemsLoaded(event);
     } else if (event is ItemCancelled) {
       yield* mapItemCancelled(event);
+    } else if (event is ItemsImported) {
+      yield* mapItemsImported(event);
     }
   }
 
@@ -56,6 +58,11 @@ class ItemsBloc extends Bloc<ItemsEvent, ItemsState> {
   }
 
   Stream<ItemsState> mapItemCancelled(ItemCancelled event) async* {
+    yield ViewingItemsState(await repository.getAvailableItems());
+  }
+
+  Stream<ItemsState> mapItemsImported(ItemsImported event) async* {
+    await repository.importItems(event.file);
     yield ViewingItemsState(await repository.getAvailableItems());
   }
 }

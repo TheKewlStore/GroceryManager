@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,6 +66,19 @@ class _AllItemsViewState extends State<AllItemsView> {
             child: Text("New"),
             onPressed: () {
               BlocProvider.of<ItemsBloc>(context).add(CreateNewItem());
+            },
+          ),
+          MaterialButton(
+            child: Text("Import CSV"),
+            onPressed: () async {
+              FilePickerResult result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ["csv"],
+              );
+
+              if (result != null) {
+                BlocProvider.of<ItemsBloc>(context).add(ItemsImported(file: File(result.files.single.path)));
+              }
             },
           ),
         ],

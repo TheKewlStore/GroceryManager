@@ -88,7 +88,7 @@ class _$GroceryManagerDatabase extends GroceryManagerDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `GroceryLists` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timeCreated` INTEGER)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `GroceryListLinks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `listId` INTEGER, `itemId` INTEGER, `purchased` INTEGER)');
+            'CREATE TABLE IF NOT EXISTS `GroceryListLinks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `listId` INTEGER, `itemId` INTEGER, `purchased` INTEGER, FOREIGN KEY (`listId`) REFERENCES `GroceryLists` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`itemId`) REFERENCES `GroceryListItems` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Dinners` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT)');
         await database.execute(

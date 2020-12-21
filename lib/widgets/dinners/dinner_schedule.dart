@@ -19,6 +19,21 @@ class _DinnerSchedulerState extends State<DinnerScheduler> {
   List<Dinner> dinnersScheduled = [];
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.availableDinners.isEmpty) {
+      BlocProvider.of<ListBloc>(context).add(
+        DinnerScheduleConfirmed(
+          dinnersScheduled: [],
+          currentItems: widget.currentItems,
+          timeCreated: widget.timeCreated,
+        ),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(

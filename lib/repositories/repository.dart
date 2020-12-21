@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_manager/database/database.dart';
 import 'package:grocery_manager/models/models.dart';
@@ -39,6 +41,10 @@ class GroceryManagerRepository {
 
   Future<void> deleteItems(List<GroceryItem> items) async {
     return itemRepository.deleteItems(items);
+  }
+
+  Future<void> importItems(File file) async {
+    return itemRepository.importItems(file);
   }
 
   Future<List<GroceryList>> getAvailableLists() async {
