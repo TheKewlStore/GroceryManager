@@ -8,6 +8,7 @@ import 'package:grocery_manager/screens/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final GroceryManagerDatabase database = await $FloorGroceryManagerDatabase.databaseBuilder("grocery_manager.db").build();
+  // final FirebaseApp firebaseApp = await Firebase.initializeApp(name: "");
 
   runApp(GroceryManagerApp(
     database: database,

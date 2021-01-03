@@ -29,6 +29,8 @@ class DinnersBloc extends Bloc<DinnerEvent, DinnerState> {
       yield* mapDinnerCancelledState(event);
     } else if (event is DinnersDeleted) {
       yield* mapDinnerDeletedState(event);
+    } else if (event is DinnersImported) {
+      yield* mapDinnersImportedState(event);
     }
   }
 
@@ -55,6 +57,10 @@ class DinnersBloc extends Bloc<DinnerEvent, DinnerState> {
 
   Stream<DinnerState> mapDinnerDeletedState(DinnersDeleted event) async* {
     await repository.deleteDinners(event.dinners);
+    yield ViewingAllDinners(availableDinners: await repository.getAvailableDinners());
+  }
+
+  Stream<DinnerState> mapDinnersImportedState(DinnersImported event) async* {
     yield ViewingAllDinners(availableDinners: await repository.getAvailableDinners());
   }
 }

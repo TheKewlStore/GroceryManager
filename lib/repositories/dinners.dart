@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_manager/database/database.dart';
 import 'package:grocery_manager/entities/entities.dart';
@@ -38,5 +42,19 @@ class DinnerRepository {
 
   Future<void> deleteDinners(List<Dinner> dinners) async {
     return database.dinnerDao.deleteDinners(dinners.map((dinner) => dinner.id).toList());
+  }
+
+  Future<void> importDinners(File file) async {
+    final input = file.openRead();
+    final data = await input.transform(utf8.decoder).transform(CsvToListConverter()).toList();
+
+    for (List<dynamic> row in data.skip(1)) {
+      int id = row[0];
+      String name = row[1];
+      String itemIdString = row[2];
+      List<int> itemIDs = itemIdString.split(",").map((id) => int.parse(id));
+      List<GroceryItem> items = await itemRepository.getItemsByIds(itemIDs);
+      await createDinner(Dinner(id: id, name: name, ingredients: items));
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_manager/models/models.dart';
 
@@ -26,4 +28,10 @@ class DinnersDeleted extends DinnerEvent {
   final List<Dinner> dinners;
 
   DinnersDeleted({this.dinners});
+}
+
+class DinnersImported extends DinnerEvent {
+  final File file;
+
+  DinnersImported({this.file});
 }
