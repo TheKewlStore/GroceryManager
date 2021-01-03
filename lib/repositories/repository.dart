@@ -70,4 +70,8 @@ class GroceryManagerRepository {
   Future<void> deleteDinners(List<Dinner> dinners) async {
     return dinnerRepository.deleteDinners(dinners);
   }
+
+  Future<void> importDinners(File file) async {
+    return dinnerRepository.importDinners(file);
+  }
 }

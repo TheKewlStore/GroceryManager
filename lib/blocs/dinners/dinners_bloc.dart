@@ -61,6 +61,7 @@ class DinnersBloc extends Bloc<DinnerEvent, DinnerState> {
   }
 
   Stream<DinnerState> mapDinnersImportedState(DinnersImported event) async* {
+    await repository.importDinners(event.file);
     yield ViewingAllDinners(availableDinners: await repository.getAvailableDinners());
   }
 }
